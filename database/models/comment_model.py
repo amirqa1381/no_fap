@@ -1,6 +1,6 @@
 from database.db_connection import Base
 from sqlalchemy import Integer, String, DateTime, func, ForeignKey, CheckConstraint
-from sqlalchemy.orm import Mapped, mapped_column, mapper, relationship, validates
+from sqlalchemy.orm import Mapped, mapped_column, relationship, validates
 from datetime import datetime
 from database.models.user_model import User
 from database.models.post_model import Post

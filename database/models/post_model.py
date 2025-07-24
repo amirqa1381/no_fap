@@ -6,20 +6,25 @@ from database.models.user_model import User
 from database.models.comment_model import Comment
 
 
-
 class Post(Base):
-	"""
-	For a community/forum-style interaction.
-	"""
+    """
+    For a community/forum-style interaction.
+    """
 
-	__tablename__ = "posts"
+    __tablename__ = "posts"
 
-	post_id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
-	user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.user_id"), nullable=False)
-	title:Mapped[str] = mapped_column(String(255))
-	content: Mapped[str] = mapped_column(String(500), name="Content")
-	created_at: Mapped[datetime] = mapped_column(DateTime, default=func.now())
+    post_id: Mapped[int] = mapped_column(
+        Integer, primary_key=True, index=True, autoincrement=True
+    )
+    user_id: Mapped[int] = mapped_column(
+        Integer, ForeignKey("users.user_id", ondelete="CASCADE"), nullable=False
+    )
+    title: Mapped[str] = mapped_column(String(255))
+    content: Mapped[str] = mapped_column(String(500), name="Content")
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=func.now())
 
-	# refrence to the user
-	user: Mapped["User"] = relationship(back_populates="posts")
-	comments: Mapped[list["Comment"]] = relationship(back_populates="post", cascade="all, delete-orphan")
+    # refrence to the user
+    user: Mapped["User"] = relationship(back_populates="posts")
+    comments: Mapped[list["Comment"]] = relationship(
+        back_populates="post", cascade="all, delete-orphan"
+    )

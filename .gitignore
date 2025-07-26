@@ -106,3 +106,16 @@ venv.bak/
 .mypy_cache/
 
 .idea/*
+
+*.pyc
+
+# Ignore Alembic-generated cache
+alembic/versions/__pycache__/
+
+# Ignore Alembic SQLite-specific scripts (if temporary)
+# Only add this if you're generating temporary migration scripts
+# and don't want to commit them:
+# alembic/versions/*.pyc
+
+# Ignore env variables
+.env

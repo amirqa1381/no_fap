@@ -8,6 +8,7 @@ from database.models.streak_model import Streak
 from database.models.journal_model import Journal
 from database.models.post_model import Post
 from database.models.comment_model import Comment
+from database.models.achivement_model import UserAchievement
 
 
 class User(Base):
@@ -38,6 +39,9 @@ class User(Base):
     posts: Mapped[list["Post"]] = relationship(
         back_populates="user", cascade="all, delete-orphan"
     )
+    
+    achivements: Mapped["UserAchievement"] = relationship(back_populates="user", cascade="all, delete-orphan")
+
     comments: Mapped[list["Comment"]] = relationship(
         back_populates="post", cascade="all, delete-orphan"
     )

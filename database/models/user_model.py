@@ -1,7 +1,7 @@
-from re import Pattern
+
 from database.db_connection import Base
-from sqlalchemy import ForeignKey, Integer, String, DateTime, func, Enum, true
-from sqlalchemy.orm import Mapped, MapperEvents, mapped_column, relationship
+from sqlalchemy import ForeignKey, Integer, String, DateTime, func, Enum
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from datetime import datetime
 import enum
 from database.models.streak_model import Streak
@@ -39,8 +39,10 @@ class User(Base):
     posts: Mapped[list["Post"]] = relationship(
         back_populates="user", cascade="all, delete-orphan"
     )
-    
-    achivements: Mapped["UserAchievement"] = relationship(back_populates="user", cascade="all, delete-orphan")
+
+    achivements: Mapped["UserAchievement"] = relationship(
+        back_populates="user", cascade="all, delete-orphan"
+    )
 
     comments: Mapped[list["Comment"]] = relationship(
         back_populates="post", cascade="all, delete-orphan"
@@ -61,7 +63,7 @@ class User(Base):
 
 class PartnerStatus(enum.Enum):
     """
-    enumaration part
+    enumeration part
     """
 
     pending = "pending"

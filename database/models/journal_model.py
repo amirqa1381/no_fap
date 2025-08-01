@@ -4,8 +4,10 @@ from database.db_connection import Base
 from sqlalchemy import Integer, String, DateTime, func, ForeignKey, CheckConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship, validates
 from datetime import datetime
+
 if TYPE_CHECKING:
     from database.models.user_model import User
+
 
 class Journal(Base):
     """

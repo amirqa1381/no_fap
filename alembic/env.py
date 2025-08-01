@@ -5,7 +5,14 @@ from sqlalchemy import pool
 
 from alembic import context
 from database.db_connection import DB_URL, Base
-from database.models import user_model, post_model, journal_model, comment_model, streak_model, achivement_model
+from database.models import (
+    user_model,
+    post_model,
+    journal_model,
+    comment_model,
+    streak_model,
+    achivement_model,
+)
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

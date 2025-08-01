@@ -2,7 +2,7 @@ from fastapi import HTTPException, status
 from sqlalchemy.orm import session
 from sqlalchemy.orm.session import Session
 from database.models.user_model import User
-from schemas.user_schema import UserBase
+from schemas.user_schema import UserBase, UserUpdateBasicBase
 from database.hashing import hash_password
 
 
@@ -19,24 +19,42 @@ def create_user(db: Session, request: UserBase):
     return new_user
 
 
-
+def update_specific_user(id: int, db: Session, request: UserUpdateBasicBase):
+    """
+    Function for updating the specific user
+    Args:
+            db (Session): db base
+            request (UserUpdateBasicBase): schema for updating
+    """
+    user = db.query(User).filter(User.id == id).first()
+    if user is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="The user is not found"
+        )
+    user.name = request.username
+    user.email = request.email
+    db.commit()
+    db.refresh(user)
+    return user
 
 
 def get_all_users(db: Session):
-	"""
-	This function is for getting all the users
-	"""
-	users = db.query(User).all()
-	return users
+    """
+    This function is for getting all the users
+    """
+    users = db.query(User).all()
+    return users
 
 
+def get_specific_user(db: Session, id: int):
+    """
+    This function is for getting the specifice user with id
+    """
+    user = db.query(User).filter(User.user_id == id).first()
+    if user is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="The user with this id is not found.",
+        )
 
-def get_specific_user(db:Session, id: int):
-	"""
-	This function is for getting the specifice user with id
-	"""
-	user = db.query(User).filter(User.user_id == id).first()
-	if user is None:
-		raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="The user with this id is not found.")
-	
-	return user
+    return user

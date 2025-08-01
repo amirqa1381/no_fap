@@ -4,6 +4,7 @@ from database.db_connection import Base
 from sqlalchemy import Integer, String, DateTime, func, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from datetime import datetime
+
 if TYPE_CHECKING:
     from database.models.user_model import User
 

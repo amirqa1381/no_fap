@@ -9,6 +9,7 @@ if TYPE_CHECKING:
     from database.models.user_model import User
     from database.models.post_model import Post
 
+
 class Comment(Base):
     """
     Comments on forum posts.

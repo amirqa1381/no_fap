@@ -9,6 +9,7 @@ from database.models.comment_model import Comment
 if TYPE_CHECKING:
     from database.models.user_model import User
 
+
 class Post(Base):
     """
     For a community/forum-style interaction.

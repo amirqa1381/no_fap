@@ -6,9 +6,9 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from datetime import datetime
 
 
-
 if TYPE_CHECKING:
-    from database.models.user_model import User    
+    from database.models.user_model import User
+
 
 class Achievement(Base):
     """

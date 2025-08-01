@@ -1,4 +1,3 @@
-
 from database.db_connection import Base
 from sqlalchemy import ForeignKey, Integer, String, DateTime, func, Enum
 from sqlalchemy.orm import Mapped, mapped_column, relationship

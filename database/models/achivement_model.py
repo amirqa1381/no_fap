@@ -1,9 +1,14 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
 from database.db_connection import Base
 from sqlalchemy import Integer, String, DateTime, func, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from datetime import datetime
-from database.models.user_model import User
 
+
+
+if TYPE_CHECKING:
+    from database.models.user_model import User    
 
 class Achievement(Base):
     """
@@ -15,11 +20,11 @@ class Achievement(Base):
     achivenet_id: Mapped[int] = mapped_column(
         Integer, primary_key=True, autoincrement=True
     )
-    name: Mapped[str] = mapped_column(String(100), null=False)
-    description: Mapped[str] = mapped_column(String(500), null=True)
+    name: Mapped[str] = mapped_column(String(100), nullable=False)
+    description: Mapped[str] = mapped_column(String(500), nullable=True)
     days_required: Mapped[int] = mapped_column(Integer)
 
-    users: Mapped["UserAchievement"] = mapped_column(
+    users: Mapped["UserAchievement"] = relationship(
         back_populates="achivement", cascade="all, delete-orphan"
     )
 

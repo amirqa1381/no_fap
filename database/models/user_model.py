@@ -45,7 +45,7 @@ class User(Base):
     )
 
     comments: Mapped[list["Comment"]] = relationship(
-        back_populates="post", cascade="all, delete-orphan"
+        back_populates="user", cascade="all, delete-orphan"
     )
     sent_requests: Mapped["AccountabilityPartner"] = relationship(
         foreign_keys="AccountabilityPartner.user_id",

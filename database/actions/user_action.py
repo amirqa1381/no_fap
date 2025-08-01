@@ -31,7 +31,7 @@ def get_all_users(db: Session):
 
 
 
-def get_specifice_user(db:Session, id: int):
+def get_specific_user(db:Session, id: int):
 	"""
 	This function is for getting the specifice user with id
 	"""

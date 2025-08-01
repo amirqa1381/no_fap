@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, SecretStr, PastDate
+from pydantic import BaseModel, EmailStr, SecretStr, PastDatetime
 
 
 class UserBase(BaseModel):
@@ -20,5 +20,5 @@ class UserResponse(BaseModel):
 	email: EmailStr
 	password_hash: SecretStr
 	is_active: bool
-	created_at: PastDate
+	created_at: PastDatetime
 	

@@ -4,6 +4,7 @@
         "achivements",
         "achivenet",
         "autoflush",
+        "dotenv",
         "ondelete",
         "refrence",
         "refrencing",

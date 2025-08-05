@@ -57,3 +57,19 @@ def get_specific_user(db: Session, id: int):
         )
 
     return user
+
+
+def get_user_by_username(db: Session, username: str):
+    """
+    Function for getting the user by username
+    Args:
+        db (Session): db base
+        username (str): username of the user
+    """
+    user = db.query(User).filter(User.username == username).first()
+    if user is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="The user with this username is not found.",
+        )
+    return user

@@ -4,15 +4,15 @@ from config import Settings
 from typing import Optional
 
 
-
 setting = Settings()
+
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     """
     Creating the access token for the user if login into the system
 
     Args:
-        data (dict): 
+        data (dict):
         expires_delta (timedelta, optional): _description_. Defaults to None.
     """
     to_encode = data.copy()
@@ -26,7 +26,7 @@ def verify_token(token: str):
     Verify the token for the user
 
     Args:
-        token (str): 
+        token (str):
 
     Raises:
         JWTError: Could not validate credential.

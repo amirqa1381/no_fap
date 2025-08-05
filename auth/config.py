@@ -8,6 +8,7 @@ class Settings(BaseSettings):
     Args:
         BaseSettings (_type_): Base class for settings management.
     """
+
     secret_key: str
     algorithm: str = "HS256"
     access_token_expire_minutes: int = 30

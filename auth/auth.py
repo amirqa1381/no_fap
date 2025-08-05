@@ -3,7 +3,7 @@ from fastapi import Depends, HTTPException, status
 from security import verify_token
 
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/user/token")
 
 
 def get_current_user(token: str = Depends(oauth2_scheme)):
@@ -21,4 +21,3 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
             headers={"WWW-Authenticate": "Bearer"},
         )
     return payload.get("sub")  # Assuming 'sub' is the user identifier in the
-    

@@ -33,6 +33,6 @@ class UserResponse(BaseModel):
     password_hash: SecretStr
     is_active: bool
     created_at: PastDatetime
-    
+
     class Config:
         orm_mode = True

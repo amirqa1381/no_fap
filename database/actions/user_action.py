@@ -1,9 +1,8 @@
 from fastapi import HTTPException, status
-from sqlalchemy.orm import session
 from sqlalchemy.orm.session import Session
 from database.models.user_model import User
 from schemas.user_schema import UserBase, UserUpdateBasicBase
-from database.hashing import hash_password
+from auth.hashing import hash_password
 
 
 def create_user(db: Session, request: UserBase):

@@ -1,10 +1,10 @@
 from jose import jwt, JWTError
 from datetime import datetime, timedelta
-from config import Settings
+from auth.config import Settings
 from typing import Optional
 
 
-setting = Settings()
+setting = Settings() # type: ignore
 
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):

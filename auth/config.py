@@ -1,5 +1,4 @@
-from pydantic.env_settings import BaseSettings
-
+from pydantic_settings import BaseSettings   
 
 class Settings(BaseSettings):
     """
@@ -14,4 +13,4 @@ class Settings(BaseSettings):
     access_token_expire_minutes: int = 30
 
     class Config:
-        env_file = ".env"
+        env_file = "key.env"

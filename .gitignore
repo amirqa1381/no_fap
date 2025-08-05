@@ -122,3 +122,4 @@ alembic/versions/__pycache__/
 
 # Ignore env variables
 .env
+key.env

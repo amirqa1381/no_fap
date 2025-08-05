@@ -26,12 +26,12 @@ def update_specific_user(id: int, db: Session, request: UserUpdateBasicBase):
             db (Session): db base
             request (UserUpdateBasicBase): schema for updating
     """
-    user = db.query(User).filter(User.id == id).first()
+    user = db.query(User).filter(User.user_id == id).first()
     if user is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="The user is not found"
         )
-    user.name = request.username
+    user.username = request.username
     user.email = request.email
     db.commit()
     db.refresh(user)

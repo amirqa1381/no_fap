@@ -4,7 +4,7 @@ from auth.config import Settings
 from typing import Optional
 
 
-setting = Settings() # type: ignore
+setting = Settings()  # type: ignore
 
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):

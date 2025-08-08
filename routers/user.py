@@ -74,7 +74,9 @@ async def update_user_route(
 
 # login user
 @router.post("/token")
-async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+async def login(
+    form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)
+):
     """
     Function for login user and getting the access token
 
@@ -82,10 +84,13 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = 
         form_data (OAuth2PasswordRequestForm, optional): Defaults to Depends().
         db (Session, optional): Defaults to Depends(get_db).
     """
-    user = get_user_by_username(db=db,username=form_data.username)
+    user = get_user_by_username(db=db, username=form_data.username)
     if not user or not verify_password(form_data.password, user.password_hash):
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="incorrect username or password")
-    
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="incorrect username or password",
+        )
+
     # creating the access token
     access_token = create_access_token(data={"sub": user.username})
     return {"access_token": access_token, "token_type": "bearer"}

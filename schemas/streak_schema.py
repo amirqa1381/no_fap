@@ -7,12 +7,17 @@ class StreakBase(BaseModel):
     Base model for streaks, used for creating and updating streaks.
     """
 
-    user_id: PositiveInt = Field(..., description="ID of the user associated with the streak")
+    user_id: PositiveInt = Field(
+        ..., description="ID of the user associated with the streak"
+    )
     start_date: PastDatetime = Field(..., description="Start date of the streak")
-    end_date: Optional[PastDatetime] = Field(None, description="End date of the streak, if applicable")
-    relapsed: bool = Field(False, description="Indicates if the user has relapsed during the streak")
-    
-    
+    end_date: Optional[PastDatetime] = Field(
+        None, description="End date of the streak, if applicable"
+    )
+    relapsed: bool = Field(
+        False, description="Indicates if the user has relapsed during the streak"
+    )
+
 
 class StreakResponse(StreakBase):
     """
@@ -33,6 +38,6 @@ class StreakResponse(StreakBase):
                 "user_id": 123,
                 "start_date": "01-01T00:00:00Z",
                 "end_date": None,
-                "relapsed": False
+                "relapsed": False,
             }
         }

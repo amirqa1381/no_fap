@@ -2,7 +2,6 @@ from datetime import datetime
 from database.models.streak_model import Streak
 
 
-
 def calculate_streak_days(streak: Streak) -> int:
     """
     Calculate the number of days in a streak.

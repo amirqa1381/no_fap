@@ -54,7 +54,7 @@ def get_streak_by_id(db: Session, streak_id: int) -> StreakResponse:
     )
     
     
-def get_all_streaks(db: Session, user_id: int) -> list[StreakResponse]:
+def get_all_user_streaks(db: Session, user_id: int) -> list[StreakResponse]:
     """
     Function to retrieve all streaks for a user.
 
@@ -76,7 +76,7 @@ def get_all_streaks(db: Session, user_id: int) -> list[StreakResponse]:
     ) for streak in streaks]
     
 
-def delete_streak(db: Session, streak_id: int) -> None:
+def delete_streak(db: Session, streak_id: int):
     """
     Function to delete a streak by its ID.
 
@@ -93,3 +93,4 @@ def delete_streak(db: Session, streak_id: int) -> None:
     
     db.delete(streak)
     db.commit()
+    return {"detail": "Streak deleted successfully"}

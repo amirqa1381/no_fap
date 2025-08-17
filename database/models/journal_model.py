@@ -37,7 +37,7 @@ class Journal(Base):
     user: Mapped["User"] = relationship(back_populates="journals")
 
     @validates("mood_rating")
-    def validate_mood_rating(self, value):
+    def validate_mood_rating(self, key,value):
         if not (1 <= value <= 10):
             raise ValueError("Mood rating must be between 1 and 10.")
         return value

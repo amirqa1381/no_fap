@@ -35,3 +35,13 @@ class JournalResponse(BaseModel):
 
     class Config:
         orm_mode = True
+        
+        
+
+
+class JournalUpdate(BaseModel):
+    """
+    Model for updating a journal entry.
+    """
+    content: Optional[str] = Field(None, description="Updated content of the journal entry")
+    mood_rating: Optional[PositiveInt] = Field(None, description="Updated mood rating between 1 & 10")

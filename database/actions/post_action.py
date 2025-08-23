@@ -1,6 +1,6 @@
 from fastapi import HTTPException, status
 from sqlalchemy.orm.session import Session
-from schemas.post_schema import PostBase, PostResponse
+from schemas.post_schema import PostBase, PostResponse, PostUpdate
 from database.models.post_model import Post
 
 
@@ -49,7 +49,7 @@ def get_post_by_id(db: Session, id: int):
     
     return post
 
-def update_post(id: int, request: PostBase, db: Session) -> PostResponse:
+def update_post(id: int, request: PostUpdate, db: Session) -> PostResponse:
     """
     update post by id
 

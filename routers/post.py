@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm.session import Session
 from database.actions.post_action import get_all_posts, get_post_by_id, post_create, update_post, delete_post
 from database.db_connection import get_db
-from schemas.post_schema import PostResponse, PostBase
+from schemas.post_schema import PostResponse, PostBase, PostUpdate
 
 
 
@@ -46,7 +46,7 @@ def create_post_route(request: PostBase, db: Session = Depends(get_db)):
 # Update part
 
 @router.put("/{post_id}", response_model=PostResponse)
-def update_post_route(post_id: int, request: PostBase, db: Session = Depends(get_db)):
+def update_post_route(post_id: int, request: PostUpdate, db: Session = Depends(get_db)):
     """
     Update an existing post by its ID.
     """

@@ -28,3 +28,16 @@ class PostResponse(BaseModel):
     title: str
     content: str
     created_at: datetime
+
+
+
+class PostUpdate(BaseModel):
+    """
+    update schema for the post model
+
+    Args:
+        BaseModel (Base): pydantic base model
+    """
+
+    title: str | None = Field(None, description="Title of the post")
+    content: str | None = Field(None, description="content of the post")

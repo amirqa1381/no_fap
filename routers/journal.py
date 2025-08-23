@@ -2,9 +2,13 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm.session import Session
 from schemas.journal_schema import JournalBase, JournalResponse, JournalUpdate
 from database.db_connection import get_db
-from database.actions.journal_action import create_journal, update_journal, get_journal_by_id, get_all_user_journals, delete_journal
-
-
+from database.actions.journal_action import (
+    create_journal,
+    update_journal,
+    get_journal_by_id,
+    get_all_user_journals,
+    delete_journal,
+)
 
 
 router = APIRouter(prefix="/journal", tags=["Journal"])
@@ -22,9 +26,10 @@ async def create_journal_route(request: JournalBase, db: Session = Depends(get_d
     return create_journal(db=db, request=request)
 
 
-
 @router.put("/update/{journal_id}", response_model=JournalResponse)
-async def update_journal_route(journal_id: int, request: JournalUpdate, db: Session = Depends(get_db)):
+async def update_journal_route(
+    journal_id: int, request: JournalUpdate, db: Session = Depends(get_db)
+):
     """
     Route to update an existing journal entry.
 
@@ -34,7 +39,6 @@ async def update_journal_route(journal_id: int, request: JournalUpdate, db: Sess
         db (Session, optional): Database session. Defaults to Depends(get_db).
     """
     return update_journal(db=db, journal_id=journal_id, request=request)
-
 
 
 @router.get("/{journal_id}", response_model=JournalResponse)
@@ -72,5 +76,7 @@ async def delete_journal_route(journal_id: int, db: Session = Depends(get_db)):
     """
     deleted = delete_journal(db=db, journal_id=journal_id)
     if not deleted:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Journal entry not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Journal entry not found"
+        )
     return {"message": f"Journal entry {journal_id} deleted successfully"}

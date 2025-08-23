@@ -4,9 +4,7 @@ from schemas.journal_schema import JournalBase, JournalResponse, JournalUpdate
 from database.models.journal_model import Journal
 
 
-
-
-def create_journal(db: Session, request:JournalBase) -> JournalResponse:
+def create_journal(db: Session, request: JournalBase) -> JournalResponse:
     """
     Function to create a new journal entry for a user.
     """
@@ -28,10 +26,11 @@ def create_journal(db: Session, request:JournalBase) -> JournalResponse:
         content=new_journal.content,
         mood_rating=new_journal.mood_rating,
     )
-    
 
 
-def update_journal(db: Session, journal_id: int, request: JournalUpdate) -> JournalResponse:
+def update_journal(
+    db: Session, journal_id: int, request: JournalUpdate
+) -> JournalResponse:
     """
     Function to update an existing journal entry.
 
@@ -50,7 +49,9 @@ def update_journal(db: Session, journal_id: int, request: JournalUpdate) -> Jour
         )
 
     journal.content = request.content if request.content else journal.content
-    journal.mood_rating = request.mood_rating if request.mood_rating else journal.mood_rating
+    journal.mood_rating = (
+        request.mood_rating if request.mood_rating else journal.mood_rating
+    )
 
     db.commit()
     db.refresh(journal)
@@ -62,8 +63,6 @@ def update_journal(db: Session, journal_id: int, request: JournalUpdate) -> Jour
         content=journal.content,
         mood_rating=journal.mood_rating,
     )
-
-
 
 
 def get_journal_by_id(db: Session, journal_id: int) -> JournalResponse:
@@ -89,7 +88,6 @@ def get_journal_by_id(db: Session, journal_id: int) -> JournalResponse:
         content=journal.content,
         mood_rating=journal.mood_rating,
     )
-    
 
 
 def get_all_user_journals(db: Session, user_id: int) -> list[JournalResponse]:
@@ -104,13 +102,16 @@ def get_all_user_journals(db: Session, user_id: int) -> list[JournalResponse]:
         list[JournalResponse]: List of journal entries for the user.
     """
     journals = db.query(Journal).filter(Journal.user_id == user_id).all()
-    return [JournalResponse(
-        journal_id=journal.journal_id,
-        user_id=journal.user_id,
-        entry_date=journal.entry_date,
-        content=journal.content,
-        mood_rating=journal.mood_rating,
-    ) for journal in journals]
+    return [
+        JournalResponse(
+            journal_id=journal.journal_id,
+            user_id=journal.user_id,
+            entry_date=journal.entry_date,
+            content=journal.content,
+            mood_rating=journal.mood_rating,
+        )
+        for journal in journals
+    ]
 
 
 def delete_journal(db: Session, journal_id: int) -> None:

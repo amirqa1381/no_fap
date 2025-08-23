@@ -3,7 +3,6 @@ from datetime import datetime
 from typing import Optional
 
 
-
 class JournalBase(BaseModel):
     """
     Base model for journal entries, used for creating and updating journal entries.
@@ -14,11 +13,11 @@ class JournalBase(BaseModel):
     )
     entry_date: PastDatetime = Field(..., description="Date of the journal entry")
     content: str = Field(..., description="Content of the journal entry")
-    mood_rating: PositiveInt = Field(..., description="rating of the mood between 1 & 10")
-    
-    
-    
-    
+    mood_rating: PositiveInt = Field(
+        ..., description="rating of the mood between 1 & 10"
+    )
+
+
 class JournalResponse(BaseModel):
     """
     This class is for returning the journal base response when user send and want
@@ -27,21 +26,25 @@ class JournalResponse(BaseModel):
     Args:
         BaseModel (__type__): pydantic base model
     """
-    journal_id: int 
-    user_id: int 
-    entry_date: datetime 
-    content: str 
+
+    journal_id: int
+    user_id: int
+    entry_date: datetime
+    content: str
     mood_rating: int
 
     class Config:
         orm_mode = True
-        
-        
 
 
 class JournalUpdate(BaseModel):
     """
     Model for updating a journal entry.
     """
-    content: Optional[str] = Field(None, description="Updated content of the journal entry")
-    mood_rating: Optional[PositiveInt] = Field(None, description="Updated mood rating between 1 & 10")
+
+    content: Optional[str] = Field(
+        None, description="Updated content of the journal entry"
+    )
+    mood_rating: Optional[PositiveInt] = Field(
+        None, description="Updated mood rating between 1 & 10"
+    )

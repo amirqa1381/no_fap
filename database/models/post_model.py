@@ -29,6 +29,7 @@ class Post(Base):
 
     # refrence to the user
     user: Mapped["User"] = relationship(back_populates="posts")
+    # refrence to the comment
     comments: Mapped[list["Comment"]] = relationship(
         back_populates="post", cascade="all, delete-orphan"
     )

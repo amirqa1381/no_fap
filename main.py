@@ -1,12 +1,12 @@
 from fastapi import FastAPI
-from routers import user, streak, journal
+from routers import user, streak, journal, post
 
 
 app = FastAPI()
 app.include_router(user.router)
 app.include_router(streak.router)
 app.include_router(journal.router)
-
+app.include_router(post.router)
 
 @app.get("/")
 async def index():

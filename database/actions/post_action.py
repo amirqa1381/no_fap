@@ -32,7 +32,7 @@ def post_create(request: PostBase, db: Session) -> PostResponse:
     )
 
 
-def get_post_by_id(db: Session, id: int) -> PostResponse:
+def get_post_by_id(db: Session, id: int):
     """
     get post obj by id
 
@@ -47,14 +47,7 @@ def get_post_by_id(db: Session, id: int) -> PostResponse:
             detail="The post with this id was not found",
         )
     
-    return PostResponse(
-        post_id=post.post_id,
-        user_id=post.user_id,
-        title = post.title,
-        content=post.content,
-        created_at=post.created_at
-    )
-
+    return post
 
 def update_post(id: int, request: PostBase, db: Session) -> PostResponse:
     """
@@ -71,7 +64,7 @@ def update_post(id: int, request: PostBase, db: Session) -> PostResponse:
     Returns:
         PostResponse: _description_
     """
-    post = db.query(Post).filter(Post.post_id == id).first()
+    post = get_post_by_id(db=db, id=id)
 
     if not post:
         raise HTTPException(
@@ -106,7 +99,7 @@ def delete_post(id: int, db: Session):
     Raises:
         HTTPException: _description_
     """
-    post = db.query(Post).filter(Post.post_id == id).first()
+    post = get_post_by_id(db=db, id=id)
 
     if not post:
         raise HTTPException(

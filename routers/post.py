@@ -1,14 +1,20 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm.session import Session
-from database.actions.post_action import get_all_posts, get_post_by_id, post_create, update_post, delete_post
+from database.actions.post_action import (
+    get_all_posts,
+    get_post_by_id,
+    post_create,
+    update_post,
+    delete_post,
+)
 from database.db_connection import get_db
 from schemas.post_schema import PostResponse, PostBase, PostUpdate
-
 
 
 router = APIRouter(prefix="/posts", tags=["Posts"])
 
 # Get part
+
 
 @router.get("/", response_model=list[PostResponse])
 def get_posts_route(db: Session = Depends(get_db)):
@@ -27,12 +33,13 @@ def get_post_route(post_id: int, db: Session = Depends(get_db)):
     if not post:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Post with id {post_id} not found"
+            detail=f"Post with id {post_id} not found",
         )
     return post
 
 
 # Post part
+
 
 @router.post("/", response_model=PostResponse, status_code=status.HTTP_201_CREATED)
 def create_post_route(request: PostBase, db: Session = Depends(get_db)):
@@ -42,8 +49,8 @@ def create_post_route(request: PostBase, db: Session = Depends(get_db)):
     return post_create(db=db, request=request)
 
 
-
 # Update part
+
 
 @router.put("/{post_id}", response_model=PostResponse)
 def update_post_route(post_id: int, request: PostUpdate, db: Session = Depends(get_db)):
@@ -54,6 +61,7 @@ def update_post_route(post_id: int, request: PostUpdate, db: Session = Depends(g
 
 
 # Delete part
+
 
 @router.delete("/{post_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_post_route(post_id: int, db: Session = Depends(get_db)):

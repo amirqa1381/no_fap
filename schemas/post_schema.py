@@ -1,5 +1,6 @@
 from pydantic import BaseModel, PositiveInt, Field
 from datetime import datetime
+from schemas.comment_schema import CommentResponse
 
 
 class PostBase(BaseModel):
@@ -28,7 +29,11 @@ class PostResponse(BaseModel):
     title: str
     content: str
     created_at: datetime
-
+    comments: list[CommentResponse] = []
+    
+    model_config = {
+        "from_attributes": True
+    }
 
 
 class PostUpdate(BaseModel):

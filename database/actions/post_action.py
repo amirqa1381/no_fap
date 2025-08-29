@@ -1,7 +1,9 @@
 from fastapi import HTTPException, status
 from sqlalchemy.orm.session import Session
 from schemas.post_schema import PostBase, PostResponse, PostUpdate
+from schemas.comment_schema import CommentResponse
 from database.models.post_model import Post
+from sqlalchemy.orm import joinedload
 
 
 def post_create(request: PostBase, db: Session) -> PostResponse:
@@ -46,8 +48,9 @@ def get_post_by_id(db: Session, id: int):
             status_code=status.HTTP_404_NOT_FOUND,
             detail="The post with this id was not found",
         )
-    
+
     return post
+
 
 def update_post(id: int, request: PostUpdate, db: Session) -> PostResponse:
     """
@@ -74,7 +77,7 @@ def update_post(id: int, request: PostUpdate, db: Session) -> PostResponse:
 
     post.title = request.title if request.title else post.title
     post.content = request.content if request.content else post.content
-    
+
     db.commit()
     db.refresh(post)
     return PostResponse(
@@ -84,8 +87,6 @@ def update_post(id: int, request: PostUpdate, db: Session) -> PostResponse:
         content=post.content,
         created_at=post.created_at,
     )
-
-
 
 
 def delete_post(id: int, db: Session):
@@ -122,7 +123,7 @@ def get_all_posts(db: Session) -> list[PostResponse]:
     Returns:
         list[PostResponse]: _description_
     """
-    posts = db.query(Post).all()
+    posts = db.query(Post).options(joinedload(Post.comments)).all()
     return [
         PostResponse(
             post_id=post.post_id,
@@ -130,6 +131,7 @@ def get_all_posts(db: Session) -> list[PostResponse]:
             title=post.title,
             content=post.content,
             created_at=post.created_at,
+            comments=[CommentResponse.model_validate(comment) for comment in post.comments],
         )
         for post in posts
     ]

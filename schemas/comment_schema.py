@@ -18,8 +18,10 @@ class CommentResponse(CommentBase):
     comment_id: int
     title: str
     content: str
+    post_id: PositiveInt
+    user_id: PositiveInt
     created_at: PastDatetime
-    replies: Optional[list["CommentResponse"]] = []  # List of replies to this comment
+    reply: Optional[list["CommentResponse"]] = []  # List of replies to this comment
     
 
     class Config:

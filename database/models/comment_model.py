@@ -20,6 +20,9 @@ class Comment(Base):
     comment_id: Mapped[int] = mapped_column(
         Integer, primary_key=True, autoincrement=True, index=True
     )
+    reply: Mapped[int] = mapped_column(
+        Integer, ForeignKey("comments.comment_id", ondelete="CASCADE"), nullable=True
+    )
     post_id: Mapped[int] = mapped_column(
         Integer, ForeignKey("posts.post_id", ondelete="CASCADE"), nullable=False
     )
@@ -32,3 +35,6 @@ class Comment(Base):
 
     post: Mapped["Post"] = relationship(back_populates="comments")
     user: Mapped["User"] = relationship(back_populates="comments")
+    replies: Mapped[list["Comment"]] = relationship(
+        backref="parent", order_by="Comment.created_at",remote_side=[comment_id], cascade="all, delete-orphan"
+    )

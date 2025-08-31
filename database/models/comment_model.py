@@ -35,6 +35,17 @@ class Comment(Base):
 
     post: Mapped["Post"] = relationship(back_populates="comments")
     user: Mapped["User"] = relationship(back_populates="comments")
+
+    # parent side
+    parent: Mapped["Comment"] = relationship(
+        "Comment", remote_side=[comment_id], back_populates="replies"
+    )
+
+    # replies side
     replies: Mapped[list["Comment"]] = relationship(
-        backref="parent", order_by="Comment.created_at",remote_side=[comment_id], cascade="all, delete-orphan"
+        "Comment",
+        back_populates="parent",
+        single_parent=True,
+        cascade="all, delete-orphan",
+        order_by="Comment.created_at",
     )

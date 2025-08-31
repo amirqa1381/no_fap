@@ -124,7 +124,11 @@ def get_all_posts(db: Session) -> list[PostResponse]:
     Returns:
         list[PostResponse]: _description_
     """
-    posts = db.query(Post).options(joinedload(Post.comments).joinedload(Comment.replies)).all()
+    posts = (
+        db.query(Post)
+        .options(joinedload(Post.comments).joinedload(Comment.replies))
+        .all()
+    )
 
     return [
         PostResponse(
@@ -134,12 +138,13 @@ def get_all_posts(db: Session) -> list[PostResponse]:
             content=post.content,
             created_at=post.created_at,
             comments=[
-                c for c in [
+                c
+                for c in [
                     CommentResponse.from_orm_with_replies(comment)
                     for comment in post.comments
-                ] if c is not None
+                ]
+                if c is not None
             ],
         )
         for post in posts
     ]
-

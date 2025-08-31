@@ -30,10 +30,8 @@ class PostResponse(BaseModel):
     content: str
     created_at: datetime
     comments: list[CommentResponse] = []
-    
-    model_config = {
-        "from_attributes": True
-    }
+
+    model_config = {"from_attributes": True}
 
 
 class PostUpdate(BaseModel):

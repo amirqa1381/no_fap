@@ -14,12 +14,10 @@ class CommentBase(BaseModel):
 class CommentResponse(CommentBase):
     comment_id: int
     created_at: PastDatetime
-    replies : List["CommentResponse"] = []
+    replies: List["CommentResponse"] = []
 
-    model_config = {
-        "from_attributes": True
-    }
-    
+    model_config = {"from_attributes": True}
+
     @classmethod
     def from_orm_with_replies(cls, comment, visited=None):
         """
@@ -42,8 +40,10 @@ class CommentResponse(CommentBase):
             created_at=comment.created_at,
             reply=comment.reply,
             replies=[
-                r for r in [
+                r
+                for r in [
                     cls.from_orm_with_replies(c, visited) for c in comment.replies
-                ] if r is not None
+                ]
+                if r is not None
             ],
         )

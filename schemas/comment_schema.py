@@ -1,7 +1,6 @@
 from pydantic import BaseModel, Field, PositiveInt, PastDatetime
 from datetime import datetime
-from typing import Optional
-
+from typing import Optional, List
 
 
 class CommentBase(BaseModel):
@@ -10,19 +9,30 @@ class CommentBase(BaseModel):
     post_id: PositiveInt
     user_id: PositiveInt
     reply: Optional[PositiveInt] = None  # New field for parent comment ID
-    
-    
-    
+
 
 class CommentResponse(CommentBase):
     comment_id: int
-    title: str
-    content: str
-    post_id: PositiveInt
-    user_id: PositiveInt
     created_at: PastDatetime
-    reply: Optional[list["CommentResponse"]] = []  # List of replies to this comment
-    
+    replies : List["CommentResponse"] = []
 
-    class Config:
-        orm_mode = True
+    model_config = {
+        "from_attributes": True
+    }
+    
+    @classmethod
+    def from_orm_with_replies(cls, comment):
+        """
+        Build CommentResponse manually to prevent recursion errors
+        """
+        
+        return cls(
+            comment_id=comment.comment_id,
+            title=comment.title,
+            content=comment.content,
+            post_id=comment.post_id,
+            user_id=comment.user_id,
+            created_at=comment.created_at,
+            reply=comment.reply,
+            replies=[cls.from_orm_with_replies(c) for c in comment.replies] if comment.replies else []
+        )

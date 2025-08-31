@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 
 class Achievement(Base):
     """
-    This model is for defining the different achivements with different badget
+    This model is for defining the different achivements with different badge
     """
 
     __tablename__ = "achivements"

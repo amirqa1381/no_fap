@@ -28,9 +28,8 @@ def create_comment(db: Session, request: CommentBase) -> CommentResponse:
         reply=new_comment.reply,
         replies=[],
     )
-    
-    
-    
+
+
 def get_comment_by_id(db: Session, comment_id: int) -> CommentResponse:
     """
     Retrieve a comment by its ID, including nested replies.
@@ -42,3 +41,17 @@ def get_comment_by_id(db: Session, comment_id: int) -> CommentResponse:
             detail=f"Comment with ID {comment_id} not found",
         )
     return CommentResponse.from_orm_with_replies(comment)
+
+
+def delete_comment_by_id(db: Session, comment_id: int) -> None:
+    """
+    Delete a comment by its ID.
+    """
+    comment = db.query(Comment).filter(Comment.comment_id == comment_id).first()
+    if not comment:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Comment with ID {comment_id} not found",
+        )
+    db.delete(comment)
+    db.commit()

@@ -3,6 +3,7 @@ from sqlalchemy.orm.session import Session
 from schemas.post_schema import PostBase, PostResponse, PostUpdate
 from schemas.comment_schema import CommentResponse
 from database.models.post_model import Post
+from database.models.comment_model import Comment
 from sqlalchemy.orm import joinedload
 
 
@@ -123,7 +124,8 @@ def get_all_posts(db: Session) -> list[PostResponse]:
     Returns:
         list[PostResponse]: _description_
     """
-    posts = db.query(Post).options(joinedload(Post.comments)).all()
+    posts = db.query(Post).options(joinedload(Post.comments).joinedload(Comment.replies)).all()
+
     return [
         PostResponse(
             post_id=post.post_id,
@@ -131,7 +133,13 @@ def get_all_posts(db: Session) -> list[PostResponse]:
             title=post.title,
             content=post.content,
             created_at=post.created_at,
-            comments=[CommentResponse.model_validate(comment) for comment in post.comments],
+            comments=[
+                c for c in [
+                    CommentResponse.from_orm_with_replies(comment)
+                    for comment in post.comments
+                ] if c is not None
+            ],
         )
         for post in posts
     ]
+

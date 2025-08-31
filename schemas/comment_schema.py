@@ -21,11 +21,18 @@ class CommentResponse(CommentBase):
     }
     
     @classmethod
-    def from_orm_with_replies(cls, comment):
+    def from_orm_with_replies(cls, comment, visited=None):
         """
-        Build CommentResponse manually to prevent recursion errors
+        Build CommentResponse manually to prevent recursion loops
         """
-        
+        if visited is None:
+            visited = set()
+
+        # Protect against cycles
+        if comment.comment_id in visited:
+            return None
+        visited.add(comment.comment_id)
+
         return cls(
             comment_id=comment.comment_id,
             title=comment.title,
@@ -34,5 +41,9 @@ class CommentResponse(CommentBase):
             user_id=comment.user_id,
             created_at=comment.created_at,
             reply=comment.reply,
-            replies=[cls.from_orm_with_replies(c) for c in comment.replies] if comment.replies else []
+            replies=[
+                r for r in [
+                    cls.from_orm_with_replies(c, visited) for c in comment.replies
+                ] if r is not None
+            ],
         )
